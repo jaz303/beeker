@@ -1,4 +1,4 @@
-var test    = require('tape'),
+var test    = require('./tape_helper'),
     beeker  = require('..'),
     T       = require('traitor');
 
