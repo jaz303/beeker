@@ -40,3 +40,21 @@ test('get/set', function(a) {
     a.end();
 
 });
+
+test('setting attribute emits change event', function(a) {
+
+    var m = new Model();
+
+    m.set('foo', 'bar');
+
+    m.on('change:foo', function(model, patch) {
+        a.ok(model === m);
+        a.ok(patch.foo[0] === 'bar');
+        a.ok(patch.foo[1] === 'bleem');
+    });
+
+    m.set('foo', 'bleem');
+
+    a.end();
+
+});
