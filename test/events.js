@@ -21,6 +21,46 @@ test('emit', function(a) {
 
 });
 
+test('emit array', function(a) {
+
+    var em = new Emitter();
+
+    var i = 0;
+    em.on('foo', function(a, b, c) { i = a + b + c; });
+
+    em.emitArray('foo', [10, 15, 20]);
+    
+    a.ok(i === 45);
+
+    a.end();
+
+});
+
+test('emit namespaced', function(t) {
+
+    var em = new Emitter();
+
+    var a = false,
+        b = false,
+        c = false,
+        d = false;
+
+    em.on('a', function() { a = true; });
+    em.on('a:b', function() { b = true; });
+    em.on('a:b:c', function() { c = true; });
+    em.on('a:b:c:d', function() { d = true; });
+
+    em.emit('a:b:c');
+
+    t.ok(a === true);
+    t.ok(b === true);
+    t.ok(c === true);
+    t.ok(d === false);
+
+    t.end();
+
+});
+
 test('emit once', function(a) {
 
     var em = new Emitter();
@@ -76,7 +116,7 @@ test('cancellation', function(a) {
 
 });
 
-test('after', function(a) {
+test('emit after', function(a) {
 
     a.plan(2);
 
@@ -92,7 +132,7 @@ test('after', function(a) {
 
 });
 
-test('every', function(a) {
+test('emit every', function(a) {
 
     a.end();
 
