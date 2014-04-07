@@ -75,3 +75,25 @@ test('cancellation', function(a) {
     a.end();
 
 });
+
+test('after', function(a) {
+
+    a.plan(2);
+
+    var em = new Emitter();
+    var start = Date.now();
+
+    em.on('foo', function(x) {
+        a.ok(x === 5);
+        a.ok(Date.now() - start >= 500);
+    });
+
+    em.emitAfter(500, 'foo', 5);
+
+});
+
+test('every', function(a) {
+
+    a.end();
+
+});
