@@ -80,3 +80,21 @@ test('collection.at() returns item at the given index', function(a) {
     a.end();
 
 });
+
+test('collection.send() calls a method on each item of the collection', function(a) {
+
+    var c = new Collection();
+
+    var x = 0;
+
+    c.add({ add: function(a,b) { x += (a+b+1); } });
+    c.add({ add: function(a,b) { x += (a+b+2); } });
+    c.add({ add: function(a,b) { x += (a+b+3); } });
+
+    c.send('add', 1, 2);
+
+    a.ok(x === 15);
+
+    a.end();
+
+});
