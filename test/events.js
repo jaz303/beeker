@@ -137,3 +137,51 @@ test('emit every', function(a) {
     a.end();
 
 });
+
+test('off one', function(a) {
+
+    var em = new Emitter();
+
+    var x = 0;
+
+    em.on('foo', function() {
+        x += 2;
+    });
+
+    em.on('foo', function() {
+        x += 2;
+    });
+
+    em.off('foo');
+    em.emit('foo');
+
+    a.ok(x === 0);
+
+    a.end(); 
+
+});
+
+test('off all', function(a) {
+
+    var em = new Emitter();
+
+    var x = 0;
+
+    em.on('foo', function() {
+        x += 2;
+    });
+
+    em.on('bar', function() {
+        x += 2;
+    });
+
+    em.off();
+
+    em.emit('foo');
+    em.emit('bar');
+
+    a.ok(x === 0);
+
+    a.end(); 
+
+});
