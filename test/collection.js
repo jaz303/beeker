@@ -95,6 +95,24 @@ test('collection.clear() empties collection', function(a) {
 
 });
 
+test('collection.relace() sets all items to new list of items, respecting original sort order', function(a) {
+
+    var c = new Collection();
+
+    c.add('a');
+    c.add('b');
+
+    c.sortBy(function(l,r) { return r - l; });
+
+    c.replace([1, 2, 3]);
+
+    a.equal(c.length, 3);
+    a.deepEqual(c.items(), [3, 2, 1])
+
+    a.end();
+
+});
+
 test('collection.sortBy() should apply new sort order to collection', function(a) {
 
     var c = new Collection();
