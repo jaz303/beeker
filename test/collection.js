@@ -131,7 +131,7 @@ test('collection.clear() empties collection', function(a) {
 
 });
 
-test('collection.relace() sets all items to new list of items, respecting original sort order', function(a) {
+test('collection.reset() sets all items to new list of items, respecting original sort order', function(a) {
 
     var c = new Collection();
 
@@ -140,7 +140,7 @@ test('collection.relace() sets all items to new list of items, respecting origin
 
     c.sortBy(function(l,r) { return r - l; });
 
-    c.replace([1, 2, 3]);
+    c.reset([1, 2, 3]);
 
     a.equal(c.length, 3);
     a.deepEqual(c.items(), [3, 2, 1])
@@ -178,6 +178,40 @@ test('collection.at() returns item at the given index', function(a) {
     a.ok(c.at(0) === 1);
     a.ok(c.at(1) === 2);
     a.ok(c.at(2) === 3);
+
+    a.end();
+
+});
+
+test('collection.set() updates item at specified index', function(a) {
+
+    var c = new Collection();
+
+    c.add('t');
+    c.add('u');
+    c.add('v');
+
+    c.set(2, 'w');
+
+    a.ok(c.length === 3);
+    a.ok(c.at(2) === 'w');
+
+    a.end();
+
+});
+
+test('collection.replace() replaces first occurrence of item after fromIndex', function(a) {
+
+    var c = new Collection();
+
+    c.add(1);
+    c.add(1);
+    c.add(1);
+
+    c.replace(1, 2, 2);
+
+    a.equal(c.at(2), 2);
+    a.deepEqual(c.items(), [1, 1, 2]);
 
     a.end();
 
