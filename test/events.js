@@ -125,10 +125,10 @@ test('emit after', function(a) {
 
     em.on('foo', function(x) {
         a.ok(x === 5);
-        a.ok(Date.now() - start >= 500);
+        a.ok(Date.now() - start >= 100);
     });
 
-    em.emitAfter(500, 'foo', 5);
+    em.emitAfter(100, 'foo', 5);
 
 });
 
