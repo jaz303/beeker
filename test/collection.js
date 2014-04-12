@@ -79,6 +79,42 @@ test('when sort function is specified, list is maintained in sorted order', func
 
 });
 
+test('collection.remove() removes item and returns it', function(a) {
+
+    var c = new Collection();
+
+    c.add('foo');
+    c.add('bar');
+    c.add('moose');
+
+    var victim = c.remove('bar');
+
+    a.equal(victim, 'bar');
+    a.equal(c.length, 2);
+    a.equal(c.indexOf('bar'), -1);
+
+    a.end();
+
+});
+
+test('collection.removeItemAtIndex() removes item and returns it', function(a) {
+
+    var c = new Collection();
+
+    c.add(10);
+    c.add(20);
+    c.add(30);
+
+    var victim = c.removeItemAtIndex(2);
+
+    a.equal(victim, 30);
+    a.equal(c.length, 2);
+    a.equal(c.indexOf(30), -1);
+
+    a.end();
+
+});
+
 test('collection.clear() empties collection', function(a) {
 
     var c = new Collection();
