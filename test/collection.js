@@ -161,6 +161,16 @@ test('collection.pop() removes last item from collection', function(a) {
 
 });
 
+test('collection.pop() returns null if collection is empty', function(a) {
+
+    var c = new Collection();
+
+    a.ok(c.pop() === null);
+
+    a.end();
+
+});
+
 test('collection.shift() removes first item from collection', function(a) {
 
     var c = new Collection();
@@ -172,6 +182,16 @@ test('collection.shift() removes first item from collection', function(a) {
     c.shift();
 
     a.deepEqual(['b', 'c'], c.items());
+
+    a.end();
+
+});
+
+test('collection.shift() returns null if collection is empty', function(a) {
+
+    var c = new Collection();
+
+    a.ok(c.shift() === null);
 
     a.end();
 
