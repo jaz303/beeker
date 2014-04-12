@@ -9,6 +9,7 @@ test('defaults to empty array', function(a) {
     var c = new Collection();
 
     a.deepEqual(c.items(), []);
+    a.equal(c.length, 0);
 
     a.end();
 
@@ -26,6 +27,20 @@ test('collection.items() returns a copy of items', function(a) {
 
     // internals test
     a.ok(c.items() !== c._items);
+
+    a.end();
+
+});
+
+test('collection.add() increments length', function(a) {
+
+    var c = new Collection();
+
+    c.add('a');
+    c.add('b');
+    c.add('c');
+
+    a.equal(c.length, 3);
 
     a.end();
 
@@ -59,6 +74,22 @@ test('when sort function is specified, list is maintained in sorted order', func
     c.add(4);
 
     a.deepEqual(c.items(), [1, 2, 3, 4, 5]);
+
+    a.end();
+
+});
+
+test('collection.clear() empties collection', function(a) {
+
+    var c = new Collection();
+
+    c.add(4);
+    c.add(8);
+
+    c.clear();
+
+    a.equal(c.length, 0);
+    a.deepEqual(c.items(), []);
 
     a.end();
 
