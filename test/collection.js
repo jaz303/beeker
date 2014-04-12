@@ -79,6 +79,36 @@ test('when sort function is specified, list is maintained in sorted order', func
 
 });
 
+test('collection.push() adds item to end of collection', function(a) {
+
+    var c = new Collection();
+
+    c.add(10);
+    c.add(12);
+
+    c.push(100);
+
+    a.deepEqual(c.items(), [10, 12, 100]);
+
+    a.end();
+
+});
+
+test('collection.unshift() adds item to beginning of collection', function(a) {
+
+    var c = new Collection();
+
+    c.add(10);
+    c.add(12);
+
+    c.unshift('abc');
+
+    a.deepEqual(c.items(), ['abc', 10, 12]);
+
+    a.end();
+
+});
+
 test('collection.remove() removes item and returns it', function(a) {
 
     var c = new Collection();
@@ -110,6 +140,38 @@ test('collection.removeItemAtIndex() removes item and returns it', function(a) {
     a.equal(victim, 30);
     a.equal(c.length, 2);
     a.equal(c.indexOf(30), -1);
+
+    a.end();
+
+});
+
+test('collection.pop() removes last item from collection', function(a) {
+
+    var c = new Collection();
+
+    c.add('a');
+    c.add('b');
+    c.add('c');
+
+    c.pop();
+
+    a.deepEqual(['a', 'b'], c.items());
+
+    a.end();
+
+});
+
+test('collection.shift() removes first item from collection', function(a) {
+
+    var c = new Collection();
+
+    c.add('a');
+    c.add('b');
+    c.add('c');
+
+    c.shift();
+
+    a.deepEqual(['b', 'c'], c.items());
 
     a.end();
 
