@@ -14,6 +14,23 @@ test('defaults to empty array', function(a) {
 
 });
 
+test('collection.items() returns a copy of items', function(a) {
+
+    var c = new Collection();
+
+    c.add('a');
+    c.add('b');
+    c.add('c');
+
+    a.deepEqual(c.items(), ['a', 'b', 'c']);
+
+    // internals test
+    a.ok(c.items() !== c._items);
+
+    a.end();
+
+});
+
 test('when no sort operator specified, add appends items', function(a) {
 
     var c = new Collection();
