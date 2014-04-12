@@ -98,3 +98,58 @@ test('collection.send() calls a method on each item of the collection', function
     a.end();
 
 });
+
+test('collection.indexOf() with custom comparator returns -1 when no such item', function(a) {
+
+    var c = new Collection({
+        eq: function(v1, v2) {
+            return v1.toLowerCase() === v2.toLowerCase();
+        }
+    });
+
+    c.add('A');
+    c.add('B');
+    c.add('C');
+
+    a.ok(c.indexOf('d') === -1);
+
+    a.end();
+
+});
+
+test('collection.indexOf() with custom comparator returns correct index', function(a) {
+
+    var c = new Collection({
+        eq: function(v1, v2) {
+            return v1.toLowerCase() === v2.toLowerCase();
+        }
+    });
+
+    c.add('A');
+    c.add('B');
+    c.add('C');
+
+    a.ok(c.indexOf('b') === 1);
+
+    a.end();
+
+});
+
+test('collection.indexOf() with custom comparator and fromIndex returns correct index', function(a) {
+
+    var c = new Collection({
+        eq: function(v1, v2) {
+            return v1.toLowerCase() === v2.toLowerCase();
+        }
+    });
+
+    c.add('A');
+    c.add('B');
+    c.add('C');
+    c.add('B');
+
+    a.ok(c.indexOf('b', 2) === 3);
+
+    a.end();
+
+});
