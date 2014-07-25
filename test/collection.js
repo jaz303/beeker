@@ -1,8 +1,7 @@
-var test    = require('./tape_helper'),
-    beeker  = require('..'),
-    T       = require('traitor');
+var test = require('./tape_helper');
+var Collection = require('../').Collection;
 
-var Collection = T.make(['bk:collection']);
+console.log(Object.keys(Collection.prototype));
 
 test('defaults to empty array', function(a) {
 
