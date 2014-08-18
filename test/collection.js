@@ -1,7 +1,7 @@
 var test = require('./tape_helper');
 var Collection = require('../').Collection;
 
-console.log(Object.keys(Collection.prototype));
+// console.log(Object.keys(Collection.prototype));
 
 test('defaults to empty array', function(a) {
 
