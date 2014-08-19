@@ -17,9 +17,9 @@ function Collection(items, opts) {
     this._sortBy    = opts.sortBy || null;
     this._eq        = opts.eq || null;
     this._items     = items ? items.slice(0) : [];
-    this._events    = new EventBox();
-
+    
     this.length     = this._items.length;
+    this.events     = new EventBox();
     
     this.sort();
 }
@@ -27,11 +27,11 @@ function Collection(items, opts) {
 //
 // Event handling
 
-Collection.prototype.off    = function(ev, cb) { return this._events.off(ev, cb); }
-Collection.prototype.on     = function(ev, cb) { return this._events.on(ev, cb); }
-Collection.prototype.on_c   = function(ev, cb) { return this._events.on_c(ev, cb); }
-Collection.prototype.once   = function(ev, cb) { return this._events.once(ev, cb); }
-Collection.prototype.once_c = function(ev, cb) { return this._events.once_c(ev, cb); }
+Collection.prototype.off    = function(ev, cb) { return this.events.off(ev, cb); }
+Collection.prototype.on     = function(ev, cb) { return this.events.on(ev, cb); }
+Collection.prototype.on_c   = function(ev, cb) { return this.events.on_c(ev, cb); }
+Collection.prototype.once   = function(ev, cb) { return this.events.once(ev, cb); }
+Collection.prototype.once_c = function(ev, cb) { return this.events.once_c(ev, cb); }
 
 //
 // Non-destructive array method delegations
@@ -142,7 +142,7 @@ Collection.prototype.add = function(item, pos, opts) {
     this.length++;
 
     if (!opts.mute) {
-        this._events.emit('change:add', item, pos);
+        this.events.emit('change:add', item, pos);
     }
 
 }
@@ -154,7 +154,7 @@ Collection.prototype.clear = function(item, opts) {
     this.length = 0;
     
     if (!opts.mute) {
-        this._events.emit('change:clear');
+        this.events.emit('change:clear');
     }
 }
 
@@ -185,7 +185,7 @@ Collection.prototype.removeItemAtIndex = function(ix, opts) {
     this.length--;
 
     if (!opts.mute) {
-        this._events.emit('change:remove', victim, ix);
+        this.events.emit('change:remove', victim, ix);
     }
 
     return victim;
@@ -208,7 +208,7 @@ Collection.prototype.reset = function(newItems, opts) {
     this.sort();
 
     if (!opts.mute) {
-        this._events.emit('change:reset');
+        this.events.emit('change:reset');
     }
 }
 
@@ -220,7 +220,7 @@ Collection.prototype.set = function(ix, item, opts) {
 
     opts = opts || DEFAULT_OPTS;
     if (!opts.mute) {
-        this._events.emit('change:set', item, ix, victim);    
+        this.events.emit('change:set', item, ix, victim);    
     }
 
     return victim;
@@ -254,7 +254,7 @@ Collection.prototype.sort = function() {
         return;
     }
     this._items.sort(this._sortBy);
-    this._events.emit('sort');
+    this.events.emit('sort');
 }
 
 //
