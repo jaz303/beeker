@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/jaz303/beeker",
   "dependencies": {
-    "event-box": "^1.0.1"
+    "event-box": "^1.1.0"
   },
   "devDependencies": {
     "tape": "~2.12.3"
