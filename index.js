@@ -208,7 +208,7 @@ Collection.prototype.reset = function(newItems, opts) {
     this.sort();
 
     if (!opts.mute) {
-        this.events.emit('change:reset');
+        this.events.emit('change:reset', this);
     }
 }
 
