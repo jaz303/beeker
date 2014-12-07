@@ -267,3 +267,123 @@ test('collection.sortBy() should apply new sort order to collection', function(a
     a.deepEqual(c.items(), [5,4,3,2,1]);
     a.end();
 });
+
+//
+// Events
+
+test('adding item fires event (1)', function(a) {
+    
+    var c = new Collection([1, 2, 3]);
+    var added = false;
+    
+    c.on('change:add', function(item, pos) {
+        added = true;
+        a.ok(item === 4);
+        a.ok(pos === 3);
+        a.deepEqual(c.items(), [1, 2, 3, 4]);
+    });
+
+    c.add(4);
+    a.ok(added);
+    a.end();
+
+});
+
+test('adding item fires event (2)', function(a) {
+    
+    var c = new Collection([1, 2, 4]);
+    var added = false;
+    
+    c.on('change:add', function(item, pos) {
+        added = true;
+        a.ok(item === 3);
+        a.ok(pos === 2);
+        a.deepEqual(c.items(), [1, 2, 3, 4]);
+    });
+
+    c.add(3, 2);
+    a.ok(added);
+    a.end();
+
+});
+
+test('clearing collection fires event', function(a) {
+
+    var c = new Collection([1, 2, 3]);
+    var cleared = false;
+
+    c.on('change:clear', function() {
+        cleared = true;
+    });
+
+    c.clear();
+    a.ok(cleared);
+    a.end();
+
+});
+
+test('removing item fires event', function(a) {
+
+    var c = new Collection([1, 2, 3]);
+    var removed = false;
+
+    c.on('change:remove', function(victim, ix) {
+        removed = true;
+        a.ok(victim === 2);
+        a.ok(ix === 1);
+    });
+
+    c.removeItemAtIndex(1);
+    a.ok(removed);
+    a.end();
+
+});
+
+test('resetting collection fires event', function(a) {
+
+    var c = new Collection([1, 2, 3]);
+    var reset = false;
+
+    c.on('change:reset', function(coll) {
+        reset = true;
+        a.ok(coll === c);
+    });
+
+    c.reset([4, 5, 6]);
+    a.ok(reset);
+    a.end();
+
+});
+
+test('setting item fires event', function(a) {
+
+    var c = new Collection([4, 5, 6]);
+    var set = false;
+
+    c.on('change:set', function(newItem, ix, oldItem) {
+        set = true;
+        a.ok(newItem === 10);
+        a.ok(ix === 0);
+        a.ok(oldItem === 4);
+    });
+
+    c.set(0, 10);
+    a.ok(set);
+    a.end();
+
+});
+
+test('sorting collection fires event', function(a) {
+
+    var c = new Collection([3, 2, 1]);
+    var sorted = false;
+
+    c.on('sort', function() {
+        sorted = true;
+    });
+
+    c.sortBy(function(l, r) { return l - r; });
+    a.ok(sorted);
+    a.end();
+
+});
