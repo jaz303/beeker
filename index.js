@@ -1,6 +1,6 @@
 module.exports = Collection;
 
-var EventBox = require('event-box');
+var signal = require('signalkit');
 
 var slice = Array.prototype.slice;
 
@@ -19,19 +19,17 @@ function Collection(items, opts) {
     this._items     = items ? items.slice(0) : [];
     
     this.length     = this._items.length;
-    this.events     = new EventBox();
+
+    this.onChange   = signal('onChange');
+    this.onAdd      = signal('onAdd', this.onChange);
+    this.onClear    = signal('onClear', this.onChange);
+    this.onRemove   = signal('onRemove', this.onChange);
+    this.onSet      = signal('onSet', this.onChange);
+    this.onReset    = signal('onReset', this.onChange);
+    this.onSort     = signal('onSort');
     
     this.sort();
 }
-
-//
-// Event handling
-
-Collection.prototype.off    = function(ev, cb) { return this.events.off(ev, cb); }
-Collection.prototype.on     = function(ev, cb) { return this.events.on(ev, cb); }
-Collection.prototype.on_c   = function(ev, cb) { return this.events.on_c(ev, cb); }
-Collection.prototype.once   = function(ev, cb) { return this.events.once(ev, cb); }
-Collection.prototype.once_c = function(ev, cb) { return this.events.once_c(ev, cb); }
 
 //
 // Non-destructive array method delegations
@@ -142,7 +140,7 @@ Collection.prototype.add = function(item, pos, opts) {
     this.length++;
 
     if (!opts.mute) {
-        this.events.emit('change:add', item, pos);
+        this.onAdd.emit(item, pos);
     }
 
 }
@@ -154,7 +152,7 @@ Collection.prototype.clear = function(item, opts) {
     this.length = 0;
     
     if (!opts.mute) {
-        this.events.emit('change:clear');
+        this.onClear.emit();
     }
 }
 
@@ -185,7 +183,7 @@ Collection.prototype.removeItemAtIndex = function(ix, opts) {
     this.length--;
 
     if (!opts.mute) {
-        this.events.emit('change:remove', victim, ix);
+        this.onRemove.emit(victim, ix);
     }
 
     return victim;
@@ -208,7 +206,7 @@ Collection.prototype.reset = function(newItems, opts) {
     this.sort();
 
     if (!opts.mute) {
-        this.events.emit('change:reset', this);
+        this.onReset.emit();
     }
 }
 
@@ -220,7 +218,7 @@ Collection.prototype.set = function(ix, item, opts) {
 
     opts = opts || DEFAULT_OPTS;
     if (!opts.mute) {
-        this.events.emit('change:set', item, ix, victim);    
+        this.onSet.emit(item, ix, victim);
     }
 
     return victim;
@@ -254,7 +252,7 @@ Collection.prototype.sort = function() {
         return;
     }
     this._items.sort(this._sortBy);
-    this.events.emit('sort');
+    this.onSort.emit();
 }
 
 //

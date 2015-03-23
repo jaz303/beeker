@@ -276,7 +276,7 @@ test('adding item fires event (1)', function(a) {
     var c = new Collection([1, 2, 3]);
     var added = false;
     
-    c.on('change:add', function(item, pos) {
+    c.onAdd.connect(function(item, pos) {
         added = true;
         a.ok(item === 4);
         a.ok(pos === 3);
@@ -294,7 +294,7 @@ test('adding item fires event (2)', function(a) {
     var c = new Collection([1, 2, 4]);
     var added = false;
     
-    c.on('change:add', function(item, pos) {
+    c.onAdd.connect(function(item, pos) {
         added = true;
         a.ok(item === 3);
         a.ok(pos === 2);
@@ -312,7 +312,7 @@ test('clearing collection fires event', function(a) {
     var c = new Collection([1, 2, 3]);
     var cleared = false;
 
-    c.on('change:clear', function() {
+    c.onClear.connect(function() {
         cleared = true;
     });
 
@@ -327,7 +327,7 @@ test('removing item fires event', function(a) {
     var c = new Collection([1, 2, 3]);
     var removed = false;
 
-    c.on('change:remove', function(victim, ix) {
+    c.onRemove.connect(function(victim, ix) {
         removed = true;
         a.ok(victim === 2);
         a.ok(ix === 1);
@@ -344,9 +344,8 @@ test('resetting collection fires event', function(a) {
     var c = new Collection([1, 2, 3]);
     var reset = false;
 
-    c.on('change:reset', function(coll) {
+    c.onReset.connect(function() {
         reset = true;
-        a.ok(coll === c);
     });
 
     c.reset([4, 5, 6]);
@@ -360,7 +359,7 @@ test('setting item fires event', function(a) {
     var c = new Collection([4, 5, 6]);
     var set = false;
 
-    c.on('change:set', function(newItem, ix, oldItem) {
+    c.onSet.connect(function(newItem, ix, oldItem) {
         set = true;
         a.ok(newItem === 10);
         a.ok(ix === 0);
@@ -378,7 +377,7 @@ test('sorting collection fires event', function(a) {
     var c = new Collection([3, 2, 1]);
     var sorted = false;
 
-    c.on('sort', function() {
+    c.onSort.connect(function() {
         sorted = true;
     });
 
